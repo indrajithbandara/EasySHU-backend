@@ -1,0 +1,8 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-image: url(../res/back.jpg);
+    text-align: center; 
+    vertical-align: middle; 
+    height: 700px; 
+}
