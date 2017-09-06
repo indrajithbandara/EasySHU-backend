@@ -145,20 +145,33 @@
 
             //mend the broken course
             $course_tmp=$course_list[0];
-            foreach ($course_list as &$course) {
+            foreach ($course_list as &$course_modify) {
                 //栏目数量少于正常数量，说明课程名和课程号与前一门课程相同
-                if(count($course)==10){
-                    array_unshift($course,$course_tmp[0],$course_tmp[1],$course_tmp[2]);
+                if(count($course_modify)==10){
+                    array_unshift($course_modify,$course_tmp[0],$course_tmp[1],$course_tmp[2]);
                 }else{
-                    $course_tmp=$course; 
+                    $course_tmp=$course_modify; 
                 }
                
             }
 
-            print_r($course_list);
             $ret=[];
         
-            foreach ($course_list as $course) {
+            $cnt=0;
+
+            for($i=0;$i<count($course_list);$i++) { 
+                $course=$course_list[$i];            
+                /*处理原始数据，将数据转换为对应的值*/
+                $course[2]=intval($course[2]);
+                $course[7]=intval($course[7]);
+                $course[8]=intval($course[8]);                
+                $course[9]=array_search($course[9],consts::$campus);
+                $tmp=0;
+                if(preg_match('/限制人数/',$course[10]))$tmp+=1;
+                if(preg_match('/禁止选课/',$course[10]))$tmp+=2;
+                if(preg_match('/禁止退课/',$course[10]))$tmp+=4;
+                $course[10]=$tmp;
+
                 /*返回原始数据*/
                 $course_processed["course_num"]=$course[0];
                 $course_processed["course_name"]=$course[1];
@@ -178,6 +191,7 @@
                 $course_processed["course_time_detail"]=$res[0];
                 $course_processed["course_comment"]=$res[1];
                 $ret []= $course_processed;
+                $course_processed=[];
             }        
             return $ret;
         }
@@ -217,7 +231,7 @@
             {
                 for($i=0;$i<5;$i++)
                 {    
-                    $pattern='/'.$week_day[$i].'(\d+)-(\d+)\s*(单|双|(?:\(|\（)第(\d+)周(?:\(|\）)|(?:\(|\（)(\d+)(-|,)(\d+)周(?:\(|\）))*(?: )*(男)*(女)*/';
+                    $pattern='/'.$week_day[$i].'(\d+)-(\d+)\s*(单|双|(?:\(|\（)第(\d+)周(?:\)|\）)|(?:\(|\（)(\d+)(-|,)(\d+)周(?:\)|\）))*(?: )*(男)*(女)*/';
                     preg_match_all($pattern,$course_time,$matches,PREG_SET_ORDER);
 
                     foreach($matches as $time)
@@ -290,7 +304,7 @@
          * GenerateCourseTimeDetailWithComment
          * 私有函数，生成时间详细信息和课程标签
          */
-        private static function GenerateCourseTimeDetailWithComment($course_time)
+        public static function GenerateCourseTimeDetailWithComment($course_time)
         {
             //生成课程时间信息
             $res=self::GenerateCourseTimeDetail($course_time,true);
@@ -300,7 +314,6 @@
             //剩下的都是课程标签,用逗号或者空格分割,将他们都替换为空格，分割为数组
             $remain=str_replace("，"," ",$remain);
             $remain=str_replace(","," ",$remain);
-            $remain=explode(" ",$remain);
             return array($time,$remain);
         }
     }

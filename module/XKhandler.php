@@ -108,7 +108,8 @@
          * @param $data=array(usr=>用户名,course_num=>课程号,course_name=>课程名,
          * teacher_num=>教师号,teacher_name=>教师名,course_time=>上课时间,
          * not_full=>人数未满,credit=>学分数,campus=>校区,enroll=>已选人数,
-         * min_capacity=>最小容量空余,max_capacity=>最大容量空余)
+         * min_capacity=>最小容量空余,max_capacity=>最大容量空余,page_index=>翻页页码,
+         * page_size=>每页记录数量)
          * @return 在没有该用户记录时返回USER NG结束脚本执行
          *         在登陆失败（密码错误）时返回USRPSW NG结束脚本执行
          *         成功：json返回课程列表
@@ -137,19 +138,19 @@
                 'Credit'=>$data['credit'],'Campus'=>$data['campus'],'Enrolls'=>$data['enroll'],
                 'MinCapacity'=>$data['min_capacity'],'MaxCapacity'=>$data['max_capacity']));
                
-            echo $content;
+            if(!preg_match("/成功/",$content))$this->ouput("DATA NG",0);//数据格式不正确
 
             $content=$Nethandler->CurlPost('/StudentQuery/CtrlViewQueryCourse',
                 array('CourseNo'=>$data['course_num'],'CourseName'=>$data['course_name'],
                 'TeachNo'=>$data['teacher_num'],'TeachName'=>$data['teacher_name'],
                 'CourseTime'=>$data['course_time'],'NotFull'=>$data['not_full'],
                 'Credit'=>$data['credit'],'Campus'=>$data['campus'],'Enrolls'=>$data['enroll'],
-                'MinCapacity'=>$data['min_capacity'],'MaxCapacity'=>$data['max_capacity']));
+                'MinCapacity'=>$data['min_capacity'],'MaxCapacity'=>$data['max_capacity'],
+                'PageIndex'=>$data['page_index'],'PageSize'=>$data['page_size'],'FunctionString'=>'InitPage'));
 
-            CourseAnalyzer::XK_ParseQueryCourseList($content);
-
-
-
+            $res=CourseAnalyzer::XK_ParseQueryCourseList($content);
+            $this->output($res,1);
+            return;
         }
     }
 ?>
