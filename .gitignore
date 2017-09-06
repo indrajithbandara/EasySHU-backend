@@ -2,3 +2,4 @@ res
 tmp
 module/UserConfig.php
 Server_Log.txt
+class/UserinfoManager.php
