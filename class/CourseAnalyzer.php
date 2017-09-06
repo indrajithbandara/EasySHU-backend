@@ -126,6 +126,15 @@
                 $course_list []= $arr;
             }
 
+            $page_count=0;
+            $html_content=$html->save();
+            preg_match("/共(?:\s*)(\d*)(?:\s*)条/",$html_content,$count);
+            if($count!=null)
+            {
+                $num=$count[1];
+                $num%20>0 ? $page_count=intdiv($num,20)+1 : $page_count=intdiv($num,20);
+            }
+
             //remove null course
             $cnt=0;
             $pos=[];
@@ -193,7 +202,7 @@
                 $ret []= $course_processed;
                 $course_processed=[];
             }        
-            return $ret;
+            return array($ret,$page_count);
         }
 
         /**

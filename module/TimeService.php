@@ -38,12 +38,13 @@
         /////////////////////////////////
 
         /*********** 返回值 *************/
-            public function output($data,$status=0)
-            {
-                $arr=array('status'=>$status,'data'=>$data);
-                echo json_encode($arr,JSON_UNESCAPED_UNICODE);
-                //exit();
-            }
+        public function output($data,$value=null,$status=0)
+        {
+            if(value==null)$arr=array('status'=>$status,'data'=>$data);
+            else $arr=array('status'=>$status,'data'=>$data,'value'=>$value);
+            echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+            //exit();
+        }
         /////////////////////////////////
 
         /**
