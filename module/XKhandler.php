@@ -74,6 +74,7 @@
             $result=$userinfo->queryUser($usr);
             if($result==null)
             {
+                if($returnValue)return 0;
                 $this->output('USER NG',0);
                 exit();
             }
@@ -107,6 +108,21 @@
                 $ret=array(true,$NetHandler->sessionId);
                 return $ret;
             }
+        }
+
+        public function XK_CheckCourseGrading($data)
+        {
+            $username=$data['usr'];
+            $result=$this->XK_login($username);
+            if(!$result[0])
+            {
+                if($result[1]==0)$this->output('USRPSW NG',0);
+                else $this->output('GRADE NG',0);
+                return;
+            }
+            $_SESSION['XKsessionID']=$result[1];
+            $this->output('OK',1);
+            return;
         }
 
         /**
