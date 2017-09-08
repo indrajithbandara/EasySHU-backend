@@ -22,17 +22,10 @@
     define('AUTHOR',TRUE);
 
     include_once('class/FunctionQuery.php');
-
-    //////////////// 自动加载库 ///////////////
-    spl_autoload_register(function($class){
-        include 'module/'.$class.".php";
-    });
-    //////////////////////////////////////////
-
-    ////////////
-    //echo "<pre>";
-    //print_r($_POST);
-    ////////////
+    include_once('module/CJhandler.php');
+    include_once('module/XKhandler.php');
+    include_once('module/UserConfig.php');
+    include_once('module/Timeservice.php');
 
     $module=FunctionQuery::QueryFunctionModule($_POST['function']);
 

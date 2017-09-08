@@ -40,16 +40,16 @@
         /*********** 返回值 *************/
             public function output($data,$value=null,$status=0)
             {
-                if(value==null)$arr=array('status'=>$status,'data'=>$data);
+                if($value==null)$arr=array('status'=>$status,'data'=>$data);
                 else $arr=array('status'=>$status,'data'=>$data,'value'=>$value);
                 echo json_encode($arr,JSON_UNESCAPED_UNICODE);
                 //exit();
             }
         /////////////////////////////////
 
-        //private static $XK_BASEURL='http://xk.autoisp.shu.edu.cn:8080';
+        private static $XK_BASEURL='http://xk.autoisp.shu.edu.cn:8080';
         //for test
-        private static $XK_BASEURL='http://xk.autoisp.shu.edu.cn';
+        //private static $XK_BASEURL='http://xk.autoisp.shu.edu.cn';
 
         /**
          * 选课系统登陆
