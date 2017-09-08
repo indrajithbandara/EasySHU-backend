@@ -44,7 +44,8 @@
 
     $handler=$module::getInstance();
     $methodname=$_POST['function'];
-    $data=$_POST['data'];
+    $data=[];
+    if(isset($_POST['data']))$data=$_POST['data'];
     $handler->$methodname($data);
     exit();
 

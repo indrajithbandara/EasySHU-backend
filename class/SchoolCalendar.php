@@ -15,10 +15,11 @@
             $term_detail=json_decode(trim(substr($content,$start+strlen($matchStart[0]),$end-$start-strlen($matchStart[0]))));
             //print_r($term_detail);
             
-            $pattern="/(\d{4})-\d{4}学年(.*)季学期/";
+            $pattern="/(\d{4})-\d{4}学年(.*?)季学期/";
             preg_match($pattern,$content,$matches);
             $year=$matches[1];
             $season=$matches[2];
+            //print_r($matches);
 
             //解析校历
             $raw_calendar=[];

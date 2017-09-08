@@ -38,10 +38,9 @@
         /////////////////////////////////
 
         /*********** 返回值 *************/
-        public function output($data,$value=null,$status=0)
+        public function output($data,$status)
         {
-            if(value==null)$arr=array('status'=>$status,'data'=>$data);
-            else $arr=array('status'=>$status,'data'=>$data,'value'=>$value);
+            $arr=array('status'=>$status,'data'=>$data);
             echo json_encode($arr,JSON_UNESCAPED_UNICODE);
             //exit();
         }

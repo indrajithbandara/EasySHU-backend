@@ -38,10 +38,16 @@
         /////////////////////////////////
 
         /*********** 返回值 *************/
-            public function output($data,$value=null,$status=0)
+            public function output($data,$status)
             {
-                if($value==null)$arr=array('status'=>$status,'data'=>$data);
-                else $arr=array('status'=>$status,'data'=>$data,'value'=>$value);
+                $arr=array('status'=>$status,'data'=>$data);
+                echo json_encode($arr,JSON_UNESCAPED_UNICODE);
+                //exit();
+            }
+
+            public function output_with_value($data,$value,$status)
+            {
+                $arr=array('status'=>$status,'data'=>$data,'value'=>$value);
                 echo json_encode($arr,JSON_UNESCAPED_UNICODE);
                 //exit();
             }
@@ -150,7 +156,7 @@
                 'PageIndex'=>$data['page_index'],'PageSize'=>$data['page_size'],'FunctionString'=>'InitPage'));
 
             $res=CourseAnalyzer::XK_ParseQueryCourseList($content);
-            $this->output($res[0],$res[1],1);
+            $this->output_with_value($res[0],$res[1],1);
             return;
         }
     }
