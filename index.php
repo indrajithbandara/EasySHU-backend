@@ -5,7 +5,7 @@
     include_once('class/SchoolCalendar.php');
     include_once('module/CJhandler.php');
     echo "<pre>";
-    //SchoolCalendar::getCurrentTermInfomation();
+    SchoolCalendar::getCurrentTermInfomation();
     //$module = CJhandler::getInstance();
     //$module->CJ_login("16121683");
 ?>
